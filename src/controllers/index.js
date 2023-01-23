@@ -1,3 +1,4 @@
+const { json } = require("body-parser");
 const services = require("../services/Apiservices")
 
 
@@ -21,8 +22,8 @@ module.exports = {
             })
         }
         res.json(json);}
-        catch(err){
-            res.status(500).send(err.message)
+        catch(error){
+            res.status(500).send(error.message)
         }
     },
 
@@ -41,8 +42,23 @@ module.exports = {
             }
             res.json(json);}
             catch(err){
-                res.status(500).send(err.message)
+                json.error = "consulta não realizada"
+                res.status(400).send(json.error)
             }
+    },
+
+    GetOneItem : async (req,res)=>{
+
+        let json = {error:'',result:{}};
+        let sobrevivente_id = req.params.sobrevivente_id;
+        let survivor = await services.GetOneItem(sobrevivente_id);
+
+        if (survivor) {
+            json.result = survivor
+        }
+
+        res.json(json);
+
     },
 
     GetSurvivor : async (req,res)=>{
@@ -58,5 +74,94 @@ module.exports = {
 
     },
 
-    
+    Insert : async (req,res)=>{
+        let json = {error:'',result:{}};
+
+
+        let nome = req.body.nome;
+        let idade = req.body.idade;
+        let genero = req.body.genero;
+        let latitude = req.body.latitude;
+        let longitude = req.body.longitude;
+        let Status = req.body.Status;
+        
+        
+        if (
+            nome &&
+            idade &&
+            genero &&
+            latitude &&
+            longitude &&
+            Status
+            ) {
+            await services.Insert(nome, idade, genero, latitude, longitude, Status);
+            json.result = {
+
+                nome,
+                idade, 
+                genero,
+                latitude,
+                longitude,
+                Status
+                
+            };
+
+        }else{
+            console.log(json.result)
+            json.error = "campos não enviados, revise os campos!"
+            res.status(400).send(json.error)
+        }
+
+        res.json(json);
+
+    },
+
+    Update : async (req,res)=>{
+        let json = {error:'',result:{}};
+
+        let sobrevivente_id = req.params.sobrevivente_id;
+        let nome = req.body.nome;
+        let idade = req.body.idade;
+        let genero = req.body.genero;
+        let latitude = req.body.latitude;
+        let longitude = req.body.longitude;
+        let Status = req.body.Status;
+        
+        
+        if (
+            sobrevivente_id&&
+            nome &&
+            idade &&
+            genero &&
+            latitude &&
+            longitude &&
+            Status
+            ) {
+            await services.Update(sobrevivente_id, nome, idade, genero, latitude, longitude, Status);
+            json.result = {
+
+                nome,
+                idade, 
+                genero,
+                latitude,
+                longitude,
+                Status
+                
+            };
+
+        }else{
+            console.log(json.result)
+            json.error = "campos não enviados, revise os campos!"
+            res.status(400).send(json.error)
+        }
+
+        res.json(json);
+
+    },
+
+    Delete: async(req, res)=>{
+        let json = {error:'',result:{}};
+        await services.Delete(req.params.sobrevivente_id);
+        res.json("excluido com sucesso");
+    }
 }
