@@ -25,6 +25,13 @@ create table if not exists `iventario`(
 		primary key(`iventario_id`)
 );
 
+create table if not exists `denuncias`(
+	`denuncia_id` int(11) auto_increment,
+    `id_denuciante` int(11) not null,
+    `id_denunciado` int(11) not null,
+    primary key(`denuncia_id`)
+);
+
 #inserindo dados para teste nas tabela
 INSERT INTO `the_resident_zombie_api`.`sobreviventes` (`nome`, `idade`, `genero`, `latitude`, `longitude`, `Status`) VALUES ('maycon', '20', 'masculino', '11.114455', '111.256478', 'sobrevivente');
 INSERT INTO `the_resident_zombie_api`.`sobreviventes` (`nome`, `idade`, `genero`, `latitude`, `longitude`, `Status`) VALUES ('alyson', '20', 'masculino', '12.152678', '251.112233', 'sobrevivente');
@@ -39,4 +46,7 @@ INSERT INTO `the_resident_zombie_api`.`iventario` (`item`, `sobrevivente_id`) VA
  
 
 select s.*,i.item from sobreviventes s inner join iventario i on s.sobrevivente_id = i.sobrevivente_id;
+
+
+
 
