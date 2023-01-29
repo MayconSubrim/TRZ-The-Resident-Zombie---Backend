@@ -1,18 +1,22 @@
 //configurando dependencias que serão usadas
-require('dotenv').config({path:'variaveis.env'});
-const express = require('express');
-const cors = require('cors');
-
+require("dotenv").config();
+const express = require("express");
+require("express-async-errors");
+const cors = require("cors");
 
 //declarando rotas
-const routes = require('./routes');
+const router = require("./routers");
 
 //configurando servidor local
 const server = express();
-server.use(cors());
-server.use(express.json());
-server.use('/api', routes);
+server
+  .use(cors())
+  .use(express.json())
+  .use(router)
+  .use((error, req, res, next) => {
+    return res.sendStatus(500);
+  });
 
-server.listen(process.env.PORT, ()=>{
-    console.log(`server rodando em : http://localhost:${process.env.PORT}`);
-})
+server.listen(process.env.PORT, () => {
+  console.log(`server rodando em : http://localhost:${process.env.PORT}`);
+});
