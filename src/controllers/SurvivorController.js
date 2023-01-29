@@ -150,6 +150,8 @@ async function GetOneSurvivor(req, res) {
   }
 }
 
+
+
 module.exports = {
   denunciar,
   Insert,

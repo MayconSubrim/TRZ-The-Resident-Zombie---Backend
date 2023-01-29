@@ -67,9 +67,27 @@ async function SurvivorItens(req, res) {
   }
 }
 
+async function Iventory(req,res) {
+  try{
+    const body = req.body
+    const Iventory = await services.Iventory(body.sobrevivente_id)
+    res.send(Iventory)
+  }catch(error){
+    if (error?.name === "BadRequestError") {
+      return res.status(400).send({ message: error.message });
+    }
+    if (error?.name === "NotFoundError") {
+      return res.status(404).send({ message: error.message });
+    }
+
+    throw new Error();
+  }
+}
+
 module.exports = {
   DellItem,
   AddItem,
   LostItem,
-  SurvivorItens
+  SurvivorItens,
+  Iventory,
 };

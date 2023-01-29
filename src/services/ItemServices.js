@@ -40,12 +40,18 @@ async function SurvivorItens(){
   return item 
 }
 
-
+async function Iventory(id) {
+  const checkSobrevivente = (await repository.getSurvivorStatus(id))[0]?.Status;
+  if (!checkSobrevivente) throw notFound("survivor not found!");
+  const iventory = (await repository.Iventory(id))
+  return iventory
+}
 
 
 module.exports = {
   DellItem,
   AddItem,
   LostItem,
-  SurvivorItens
+  SurvivorItens,
+  Iventory
 }

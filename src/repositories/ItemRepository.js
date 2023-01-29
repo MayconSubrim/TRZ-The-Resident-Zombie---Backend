@@ -65,6 +65,10 @@ async function SurvivorItens() {
     ))[0];
   }
 
+async function Iventory(id) {
+  return (await db.query("select s.sobrevivente_id,i.item, i.iventario_id from sobreviventes s inner join iventario i on s.sobrevivente_id = i.sobrevivente_id where s.sobrevivente_id = ?", [id]))[0]
+}
+
 
 module.exports = {
   DellItem,
@@ -74,5 +78,6 @@ module.exports = {
   CheckIfOwnerItem,
   AddItem,
   LostItem,
-  SurvivorItens
+  SurvivorItens,
+  Iventory
 };
