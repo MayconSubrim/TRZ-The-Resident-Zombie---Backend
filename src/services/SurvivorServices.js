@@ -14,6 +14,8 @@ async function denunciar(id_denuciante, id_denunciado) {
   if (checkdenunciate == "infectado")
     throw badRequest("you are infected, therefore could not report");
 
+  if (!checkdenunciate) throw notFound("survivor not found");
+
   const alreadyReported = (
     await repository.getIfDenunciatorAlreadyReported(
       id_denuciante,
