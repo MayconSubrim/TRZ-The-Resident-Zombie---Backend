@@ -61,6 +61,12 @@ async function UpdateLocal(body) {
 }
 
 async function DeleteSurvivor(body) {
+  const check = (await repository.getSurvivorStatus(body.sobrevivente_id))[0]
+    ?.Status;
+
+  if (!check) throw notFound("survivor not found");
+
+
   await repository.DeleteSurvivor(body);
 }
 
